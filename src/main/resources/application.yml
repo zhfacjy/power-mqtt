@@ -1,0 +1,16 @@
+spring:
+  freemarker:
+    checkTemplateLocation: false
+  application:
+    name: api
+  profiles:
+    active: pord
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate.jdbc.batch_size: 10

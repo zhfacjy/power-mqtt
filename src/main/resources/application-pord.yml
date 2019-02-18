@@ -1,0 +1,85 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://111.230.151.93:3306/elqtt?characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
+      username: kafka
+      password: kafka
+      # 配置初始化大小、最小、最大
+      initial-size: 1
+      min-idle: 1
+      max-active: 5
+      # 配置从连接池获取连接等待超时的时间
+      max-wait: 60000
+      # 打开PSCache，并且指定每个连接上PSCache的大小，Oracle等支持游标的数据库，打开此开关，会以数量级提升性能
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置间隔多久启动一次DestroyThread，对连接池内的连接才进行一次检测，单位是毫秒。检测时:
+      #   1.如果连接空闲并且超过minIdle以外的连接，如果空闲时间超过minEvictableIdleTimeMillis设置的值则直接物理关闭。
+      #   2.在minIdle以内的不处理。
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最大空闲时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 检验连接是否有效的查询语句
+      validation-query: SELECT 1
+      # 设置从连接池获取连接时是否检查连接有效性
+      test-while-idle: true
+      # 设置从连接池获取连接时是否检查连接有效性
+      test-on-borrow: false
+      # 设置往连接池归还连接时是否检查连接有效性
+      test-on-return: false
+      # 打开后，增强timeBetweenEvictionRunsMillis的周期性连接检查，minIdle内的空闲连接，每次检查强制验证连接有效性
+      keep-alive: true
+      # 连接泄露检查，打开removeAbandoned功能 , 连接从连接池借出后，长时间不归还，将触发强制回连接。
+      # 回收周期随timeBetweenEvictionRunsMillis进行，如果连接为从连接池借出状态，并且未执行任何sql，并且从借出时间起已超过removeAbandonedTimeout时间，则强制归还连接到连接池中。
+      removeAbandoned: true
+      removeAbandonedTimeout: 150 #秒
+      # 关闭abanded连接时输出错误日志，这样出现连接泄露时可以通过错误日志定位忘记关闭连接的位置
+      logAbandoned: true
+  kafka:
+    # 指定kafka 代理地址，可以多个
+    bootstrap-servers: 111.230.151.93:9092
+    producer:
+      type: async
+      request:
+        required:
+          acks: 1
+      queue:
+        buffering:
+          max:
+            ms: 5000
+            messages: 10000
+        enqueue:
+          timeout:
+            ms: -1
+      batch:
+        num:
+          messages: 200
+      retries: 0
+      # 每次批量发送消息的数量
+      batch-size: 16384
+      # 缓存容量
+      buffer-memory: 33554432
+      # 指定消息key和消息体的编解码方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      # 指定默认消费者group id
+      group-id: power
+      auto-commit-interval: 100
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      # 指定消息key和消息体的编解码方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    # 指定listener 容器中的线程数，用于提高并发量
+    listener:
+      concurrency: 3
+# emq连接配置
+mqtt:
+  url: tcp://193.112.32.136:1883
+  clean-start: true
+  client-id: receiver
+  reconnection-delay: 2000
+  reconnection-attempt_max: 6
+  keep-alive: 30
