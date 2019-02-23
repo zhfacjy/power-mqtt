@@ -57,9 +57,9 @@ public class KafkaConsumer {
         float va = (float) (Integer.parseInt(message.substring(8, 12), 16) / 10.0);
         float vb = (float) (Integer.parseInt(message.substring(12, 16), 16) / 10.0);
         float vc = (float) (Integer.parseInt(message.substring(16, 20), 16) / 10.0);
-        meterRecord.setVa(va);
-        meterRecord.setVb(vb);
-        meterRecord.setVc(vc);
+        meterRecord.setUa(va);
+        meterRecord.setUb(vb);
+        meterRecord.setUc(vc);
         float ia = (float) (Integer.parseInt(message.substring(20, 24), 16) / 10.0);
         float ib = (float) (Integer.parseInt(message.substring(24, 28), 16) / 10.0);
         float ic = (float) (Integer.parseInt(message.substring(28, 32), 16) / 10.0);
