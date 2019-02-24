@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.fusesource.mqtt-client:mqtt-client:1.12'
     implementation 'com.google.guava:guava:27.0.1-jre'
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
